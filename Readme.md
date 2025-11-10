@@ -1,0 +1,1 @@
+Sports analytics app using Sportradar NCAAFB API to collect, store, and visualize real-time NCAA Football data. Built with Python, SQL, and Streamlit for interactive analysis of teams, players, and rankings.
