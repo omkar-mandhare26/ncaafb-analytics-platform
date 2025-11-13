@@ -1,0 +1,10 @@
+# type: ignore
+seasons_url = "https://api.sportradar.com/ncaafb/trial/v7/en/league/seasons.json"
+venues_url = "https://api.sportradar.com/ncaafb/trial/v7/en/games/{season_year}/REG/schedule.json"
+divisions_url = "https://api.sportradar.com/ncaafb/trial/v7/en/seasons/{season_year}/REG/standings/season.json"
+conferences_url = "https://api.sportradar.com/ncaafb/trial/v7/en/seasons/{season_year}/REG/standings/season.json"
+teams_url = "https://api.sportradar.com/ncaafb/trial/v7/en/league/teams.json"
+players_url = "https://api.sportradar.com/ncaafb/trial/v7/en/teams/{team_id}/full_roster.json"
+player_statistics_url = "https://api.sportradar.com/ncaafb/trial/v7/en/seasons/{season_year}/REG/teams/{team_id}/statistics.json"
+rankings_url = "https://api.sportradar.com/ncaafb/trial/v7/en/polls/{poll_type}/{season_year}/{week_number}/rankings.json"
+coaches_url = "https://api.sportradar.com/ncaafb/trial/v7/en/teams/{team_id}/full_roster.json"
