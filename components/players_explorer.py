@@ -28,15 +28,15 @@ def players_explorer(st,conn):
     if filter_type == "Position":
         column_name = "Position"
         options = players_res[column_name].unique()
-        selected_value = st.selectbox("Select a conference", options)
+        selected_value = st.selectbox("Select a position", options)
     elif filter_type == "Status":
         column_name = "Status"
         options = players_res[column_name].unique()
-        selected_value = st.selectbox("Select a division", options)
+        selected_value = st.selectbox("Select a status", options)
     elif filter_type == "Eligibility":
         column_name = "Eligibility"
         options =  players_res[column_name].unique()
-        selected_value = st.selectbox("Select a state", options)
+        selected_value = st.selectbox("Select a eligibility", options)
 
     st.write("Selected:", selected_value)
     st.dataframe(players_res[players_res[column_name] == selected_value])

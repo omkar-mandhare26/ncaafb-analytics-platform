@@ -1,5 +1,7 @@
+from components.seasons_schedule_viewer import seasons_schedule_viewer
 from components.players_explorer import players_explorer
 from components.home_dashboard import home_dashboard
+from components.ranking_table import ranking_table
 from components.team_explorer import team_explorer
 from utils.db import get_connection
 import streamlit as st
@@ -20,4 +22,6 @@ option = st.sidebar.radio(
 if option == "Home Dashboard": home_dashboard(st, conn)
 elif option == "Team Explorer": team_explorer(st,conn)
 elif option == "Players Explorer": players_explorer(st,conn)
+elif option == "Season & Schedule Viewer": seasons_schedule_viewer(st,conn)
+elif option == "Rankings Table": ranking_table(st, conn)
 else: st.header("Yet to build")
