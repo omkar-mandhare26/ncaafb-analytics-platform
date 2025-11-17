@@ -14,7 +14,7 @@ def home_dashboard(st, conn):
     teams_res.columns = [column.capitalize().replace("_", " ") for column in teams_res.columns]
 
     st.header("1. Available teams with their conference names")
-    st.dataframe(teams_res, use_container_width=True)
+    st.dataframe(teams_res, width='stretch')
 
     conf_counts = teams_res.groupby("Conference name").size().reset_index(name="team_count")
 
@@ -28,7 +28,7 @@ def home_dashboard(st, conn):
     fig.update_layout(xaxis_tickangle=-45)
 
     st.header("Team count under each Conference")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     st.write("---")
 
     # 1.2 Quetion Solution (All active players)
@@ -38,7 +38,7 @@ def home_dashboard(st, conn):
 
 
     st.header("2. All the active players")
-    st.dataframe(players_res[players_res["Status"] == "ACT"],use_container_width=True)
+    st.dataframe(players_res[players_res["Status"] == "ACT"],width='stretch')
     
     team_counts = players_res['Team name'].value_counts().reset_index()
     team_counts.columns = ['team_name', 'player_count']
@@ -50,7 +50,7 @@ def home_dashboard(st, conn):
     )
 
     st.header("Players Treemap")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     st.write("---")
 
     # 1.3 Question Solutions (All current season years and their status)

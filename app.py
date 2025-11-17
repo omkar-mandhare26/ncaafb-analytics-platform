@@ -1,5 +1,5 @@
-from pages.home_dashboard import home_dashboard
-from pages.team_explorer import team_explorer
+from components.home_dashboard import home_dashboard
+from components.team_explorer import team_explorer
 from utils.db import get_connection
 import streamlit as st
 

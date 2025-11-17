@@ -31,7 +31,7 @@ def team_explorer(st, conn):
     )
 
     st.header("Team count under each Conference")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     st.write("---")
 
     # 2nd Question Solutions (Apply filters for conference, division, or state)
