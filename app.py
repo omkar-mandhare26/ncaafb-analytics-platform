@@ -1,3 +1,4 @@
+from components.players_explorer import players_explorer
 from components.home_dashboard import home_dashboard
 from components.team_explorer import team_explorer
 from utils.db import get_connection
@@ -18,5 +19,5 @@ option = st.sidebar.radio(
 
 if option == "Home Dashboard": home_dashboard(st, conn)
 elif option == "Team Explorer": team_explorer(st,conn)
-else:
-    st.header("Yet to build")
+elif option == "Players Explorer": players_explorer(st,conn)
+else: st.header("Yet to build")
