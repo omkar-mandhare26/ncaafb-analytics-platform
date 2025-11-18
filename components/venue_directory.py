@@ -1,13 +1,15 @@
 import pandas as pd
 
 def venue_directory(st, conn): 
-    st.title("Venue Directory")
+    st.title("6. Venue Directory")
     st.write("---")
 
     query = "SELECT name, city, state, country, capacity, surface, roof_type FROM venues;"
     venue_res = pd.read_sql(query,conn)
     venue_res.columns = [column.capitalize().replace("_", " ") for column in venue_res.columns]
 
+    st.header("View list of venues and details such as city, state, capacity, and roof type.")
+    st.subheader("Filter by state or roof type")
     filter_type = st.selectbox(
         "Filter by:", ["Show all", "State", "Roof type"]
     )

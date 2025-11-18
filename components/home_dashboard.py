@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 
 def home_dashboard(st, conn):
-    st.title("Home Dashboard")
+    st.title("1. Home Dashboard")
     st.write("---")
 
     # 1.1 Quetion Solution (All available teams and their conferences)

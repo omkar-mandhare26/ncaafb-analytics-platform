@@ -1,7 +1,7 @@
 import pandas as pd
 
 def ranking_table(st, conn): 
-    st.title("Rankings Table")
+    st.title("5. Rankings Table")
     st.write("---")
 
     # 1st & 2nd Question Solution (Display the weekly rankings from the AP(Associated Press Top 25) Poll, Columns include: week, team name, rank, points, first-place votes, wins, and losses.)

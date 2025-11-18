@@ -1,7 +1,7 @@
 import pandas as pd
 
 def seasons_schedule_viewer(st, conn): 
-    st.title("Season & Schedule Viewer")
+    st.title("4. Season & Schedule Viewer")
     st.write("---")
 
     # 1st & 2nd Question Solution (List of available seasons with start and end dates. Filter by year or status)

@@ -1,10 +1,11 @@
 from components import (
-    seasons_schedule_viewer,
-    players_explorer,
-    venue_directory,
     home_dashboard,
     team_explorer,
+    players_explorer,
+    seasons_schedule_viewer,
     ranking_table,
+    venue_directory,
+    coaches_table
 )
 from utils.db import get_connection
 import streamlit as st
@@ -28,4 +29,4 @@ elif option == "Players Explorer": players_explorer(st,conn)
 elif option == "Season & Schedule Viewer": seasons_schedule_viewer(st,conn)
 elif option == "Rankings Table": ranking_table(st, conn)
 elif option == "Venue Directory": venue_directory(st, conn)
-else: st.header("Yet to build")
+elif option == "Coaches Table": coaches_table(st, conn)

@@ -1,7 +1,7 @@
 import pandas as pd
 
 def players_explorer(st,conn):
-    st.title("Players Explorer")
+    st.title("3. Players Explorer")
     st.write("---")
 
     query = """ SELECT p.first_name, p.last_name, p.abbr_name, p.position, p.eligibility, p.height, p.weight, p.status, t.name AS team_name

@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 
 def team_explorer(st, conn):
-    st.title("Teams Explorer")
+    st.title("T2. eams Explorer")
     st.write("---")
 
     # 1st Question Solution (View all teams with details like team name, market, alias, conference, and venue)
