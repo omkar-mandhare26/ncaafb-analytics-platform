@@ -61,6 +61,20 @@ def home_dashboard(st, conn):
     st.dataframe(season_res)
     st.write("---")
 
+
+    # Overview of the dataset
+    tables = ["coaches", "conferences", "divisions", "players", "player_statistics", "rankings", "seasons", "season_schedules", "teams", "venues"]
+    results = []
+    for table in tables:
+        query = f"SELECT COUNT(*) AS row_count FROM {table}"
+        df = pd.read_sql(query, conn)
+        count_value = int(df.iloc[0]["row_count"])
+        results.append({"table": table, "row_count": count_value})
+
+    table_counts = pd.DataFrame(results)
+    table_counts = table_counts.sort_values(by="row_count", ascending=False).reset_index(drop=True)
+    table_counts.columns = [column.capitalize().replace("_", " ") for column in table_counts.columns]
+
     st.header("Quick Overview of the Dataset")
     st.markdown("""
         This dataset is built from the NCAAFB API and stores data of multiple seasons <br />
@@ -76,3 +90,4 @@ def home_dashboard(st, conn):
             <li><b>Coaches</b> : Coaching staff linked to teams.</li>
         </ol>
     """, unsafe_allow_html=True)
+    st.table(table_counts)

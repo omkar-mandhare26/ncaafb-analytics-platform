@@ -13,9 +13,7 @@ def coaches_table(st, conn):
     coaches_res.columns = [column.capitalize().replace("_", " ") for column in coaches_res.columns]
 
     st.header("Display all coaches with details like name, position, and associated team")
-    st.subheader("Search by coach name or team")
-
-    search_text = st.text_input("")
+    search_text = st.text_input("Search by coach name or team")
 
     if search_text.strip():
         coaches_res = coaches_res[

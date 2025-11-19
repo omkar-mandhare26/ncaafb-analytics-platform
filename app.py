@@ -10,10 +10,15 @@ from components import (
 )
 from utils.db import get_connection
 import streamlit as st
+from utils.get_engine import get_engine
+
+@st.cache_resource
+def get_engine_cached():
+    print("Engine Loaded")
+    return get_engine()
 
 try:
-    conn = get_connection()
-    print("Connection Successful")
+    conn = get_engine_cached()
 except Exception as e:
     print("Connection Failed: ", e)
 
@@ -32,5 +37,3 @@ elif option == "Rankings Table": ranking_table(st, conn)
 elif option == "Venue Directory": venue_directory(st, conn)
 elif option == "Coaches Table": coaches_table(st, conn)
 elif option == "Analysis Questions": analysis_questions(st,conn)
-
-conn.close()
