@@ -83,8 +83,19 @@ def analysis_questions(st, conn):
     st.write("---")
 
     
-    # 6. How many home vs away games were played per team in a season?
-    st.header("6. How many home vs away games were played per team in a season?")
+    # 6. Which players contributed the highest total yards (rushing + receiving) in a season?
+    query = """SELECT p.first_name, p.last_name, p.abbr_name, t.name AS team_name, t.alias, (ps.rushing_yards + ps.receiving_yards) AS total_yards, ps.games_played, ps.games_started
+        FROM player_statistics AS ps
+        JOIN players AS p ON p.player_id = ps.player_id
+        JOIN teams AS t ON t.team_id = ps.team_id
+        ORDER BY (ps.rushing_yards + ps.receiving_yards) DESC
+        LIMIT 10;
+    """
+    stats_res = pd.read_sql(query,conn)
+    stats_res.columns = [column.capitalize().replace("_", " ") for column in stats_res.columns]
+
+    st.header("6. Which players contributed the highest total yards (rushing + receiving) in a season?")
+    st.dataframe(stats_res)
     st.write("---")
 
     

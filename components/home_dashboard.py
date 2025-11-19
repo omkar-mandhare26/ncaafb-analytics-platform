@@ -42,6 +42,7 @@ def home_dashboard(st, conn):
     
     team_counts = players_res['Team name'].value_counts().reset_index()
     team_counts.columns = ['team_name', 'player_count']
+    team_counts = team_counts.sort_values(by="player_count", ascending=False).head(25)
 
     fig = px.treemap(
     team_counts,
@@ -49,7 +50,7 @@ def home_dashboard(st, conn):
     values="player_count",
     )
 
-    st.header("Players Treemap")
+    st.header("Players Treemap (Top 25)")
     st.plotly_chart(fig, width='stretch')
     st.write("---")
 

@@ -68,6 +68,18 @@ def team_explorer(st, conn):
     st.dataframe(teams_res[teams_res[column_name] == selected_value])
     st.write("---")
 
+    data = teams_res.groupby(column_name).size().reset_index(name="Count")
+    fig = px.bar(
+        data,
+        x=column_name,
+        y="Count",
+        title=f"Count per {column_name}",
+        text="Count"
+    )
+    fig.update_layout(xaxis_tickangle=-45)
+    st.plotly_chart(fig,width='stretch')
+    st.write("---")
+
     # 3rd Question Solution (Search for a team by name or alias)
     query = "SELECT name, alias, market, founded, mascot, fight_song, championships_won FROM teams;"
     teams_res = pd.read_sql(query, conn)
