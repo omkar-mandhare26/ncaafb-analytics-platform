@@ -5,3 +5,4 @@ from .ranking_table import ranking_table
 from .venue_directory import venue_directory
 from .seasons_schedule_viewer import seasons_schedule_viewer
 from .coaches_table import coaches_table
+from .analysis_questions import analysis_questions
