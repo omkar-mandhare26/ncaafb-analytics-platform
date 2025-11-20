@@ -1,3 +1,5 @@
+from utils.capitalize_columns import capitalize_columns
+import plotly.express as px
 import pandas as pd
 
 def players_explorer(st,conn):
@@ -6,17 +8,20 @@ def players_explorer(st,conn):
 
     query = """ SELECT p.first_name, p.last_name, p.abbr_name, p.position, p.eligibility, p.height, p.weight, p.status, t.name AS team_name
         FROM players AS p
-        JOIN teams AS t ON t.team_id = p.team_id
+        JOIN teams AS t ON t.team_id = p.team_id;
     """
     players_res = pd.read_sql(query,conn)
-    players_res.columns = [column.capitalize().replace("_", " ") for column in players_res.columns]
-    players_res["Full name"] = players_res["First name"] + " " + players_res["Last name"]
-    cols = list(players_res.columns)
-    players_res = players_res[[cols[-1]] + cols[0:-1]]
+    capitalize_columns(players_res)
+
+    height_fig = px.histogram(players_res, x="Height", title="Player Height Distribution")
+    height_fig.update_layout(xaxis_title="Height", yaxis_title="Player Count")
 
     # 1st Question Solution (Display all players with attributes like position, eligibility, height, and weight)
     st.header("1. Display all players with attributes like position, eligibility, height, and weight")
     st.dataframe(players_res)
+    st.write("---")
+
+    st.plotly_chart(height_fig, width="stretch")
     st.write("---")
 
     # 2nd Question Solution (Apply filters for position, status or eligibility)
@@ -48,11 +53,10 @@ def players_explorer(st,conn):
 
     if search_text.strip():
         players_res = players_res[
-            players_res["Full name"].str.lower().eq(search_text.lower()) |
-            players_res["First name"].str.lower().eq(search_text.lower()) |
-            players_res["Last name"].str.lower().eq(search_text.lower()) |
-            players_res["Abbr name"].str.lower().eq(search_text.lower()) |
-            players_res["Team name"].str.lower().eq(search_text.lower())
+            players_res["First Name"].str.lower().eq(search_text.lower()) |
+            players_res["Last Name"].str.lower().eq(search_text.lower()) |
+            players_res["Abbr Name"].str.lower().eq(search_text.lower()) |
+            players_res["Team Name"].str.contains(search_text, case=False, na=False)
         ]
 
         if players_res.empty: st.warning("No matching player found")

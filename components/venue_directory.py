@@ -1,3 +1,4 @@
+from utils.capitalize_columns import capitalize_columns
 import pandas as pd
 
 def venue_directory(st, conn): 
@@ -6,12 +7,12 @@ def venue_directory(st, conn):
 
     query = "SELECT name, city, state, country, capacity, surface, roof_type FROM venues;"
     venue_res = pd.read_sql(query,conn)
-    venue_res.columns = [column.capitalize().replace("_", " ") for column in venue_res.columns]
+    capitalize_columns(venue_res)
 
     st.header("View list of venues and details such as city, state, capacity, and roof type.")
     st.subheader("Filter by state or roof type")
     filter_type = st.selectbox(
-        "Filter by:", ["Show all", "State", "Roof type"]
+        "Filter by:", ["Show all", "State", "Roof Type"]
     )
 
     if filter_type == "Show all": st.dataframe(venue_res)
@@ -20,8 +21,8 @@ def venue_directory(st, conn):
             column_name = "State"
             options = venue_res[column_name].unique()
             selected_value = st.selectbox("Select a state", options)
-        elif filter_type == "Roof type":
-            column_name = "Roof type"
+        elif filter_type == "Roof Type":
+            column_name = "Roof Type"
             options = venue_res[column_name].unique()
             selected_value = st.selectbox("Select a roof type", options)
         st.write("Selected:", selected_value)

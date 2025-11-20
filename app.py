@@ -8,9 +8,8 @@ from components import (
     coaches_table,
     analysis_questions
 )
-from utils.db import get_connection
-import streamlit as st
 from utils.get_engine import get_engine
+import streamlit as st
 
 @st.cache_resource
 def get_engine_cached():

@@ -1,8 +1,9 @@
-import pandas as pd
+from utils.capitalize_columns import capitalize_columns
 import plotly.express as px
+import pandas as pd
 
 def team_explorer(st, conn):
-    st.title("T2. eams Explorer")
+    st.title("2. Teams Explorer")
     st.write("---")
 
     # 1st Question Solution (View all teams with details like team name, market, alias, conference, and venue)
@@ -13,17 +14,16 @@ def team_explorer(st, conn):
     """
 
     teams_res = pd.read_sql(query,conn)
-    teams_res.columns = [column.capitalize().replace("_", " ") for column in teams_res.columns]
+    capitalize_columns(teams_res)
 
     st.header("1. View all teams with details like team name, market, alias, conference, and venue")
     st.dataframe(teams_res)
 
-    conf_counts = teams_res.groupby("Conference name").size().reset_index(name="team_count")
-
+    conf_counts = teams_res.groupby("Conference Name").size().reset_index(name="Team Count")
     fig = px.pie(
         conf_counts,
-        values="team_count",
-        names="Conference name",
+        values="Team Count",
+        names="Conference Name",
         color_discrete_sequence=px.colors.sequential.RdBu
     ).update_layout(
         width=600,
@@ -42,7 +42,7 @@ def team_explorer(st, conn):
         JOIN venues AS v ON v.venue_id = t.venue_id; 
     """
     teams_res = pd.read_sql(query,conn)
-    teams_res.columns = [column.capitalize().replace("_", " ") for column in teams_res.columns]
+    capitalize_columns(teams_res)
 
     st.header("2. Apply filters for conference, division, or state")
     filter_type = st.selectbox(
@@ -50,18 +50,18 @@ def team_explorer(st, conn):
     )
 
     if filter_type == "Conference":
-        column_name = "Conference name"
-        options = teams_res["Conference name"].unique()
+        column_name = "Conference Name"
+        options = teams_res[column_name].unique()
         selected_value = st.selectbox("Select a conference", options)
 
     elif filter_type == "Division":
-        column_name = "Division name"
-        options = teams_res["Division name"].unique()
+        column_name = "Division Name"
+        options = teams_res[column_name].unique()
         selected_value = st.selectbox("Select a division", options)
 
     elif filter_type == "State":
         column_name = "State"
-        options = teams_res["State"].unique()
+        options = teams_res[column_name].unique()
         selected_value = st.selectbox("Select a state", options)
 
     st.write("Selected:", selected_value)
@@ -83,7 +83,7 @@ def team_explorer(st, conn):
     # 3rd Question Solution (Search for a team by name or alias)
     query = "SELECT name, alias, market, founded, mascot, fight_song, championships_won FROM teams;"
     teams_res = pd.read_sql(query, conn)
-    teams_res.columns = [column.capitalize().replace("_", " ") for column in teams_res.columns]
+    capitalize_columns(teams_res)
 
     st.header("3. Search for a team by name or alias")
     search_text = st.text_input("Search team by name or alias")
@@ -104,18 +104,16 @@ def team_explorer(st, conn):
     
     team_res = pd.read_sql("SELECT team_id, name, alias FROM teams;", conn)
     team_res["Label"] = team_res["name"] + "(" + team_res["alias"] + ")" 
-
     team_selected = st.selectbox(
         "Filter by:", team_res["Label"]
     )
-
-    team_id = team_res[team_res["Label"] == team_selected].iloc[0].iloc[0]
+    team_id = team_res[team_res["Label"] == team_selected].iloc[0,0]
 
     players_res = pd.read_sql(f"SELECT first_name, last_name, abbr_name, birth_place, position, height, weight, status FROM players WHERE team_id='{team_id}';", conn)
-    players_res.columns = [column.capitalize().replace("_", " ") for column in players_res.columns]
+    capitalize_columns(players_res)
 
     coaches_res = pd.read_sql(f"SELECT full_name, position FROM coaches WHERE team_id='{team_id}';", conn)
-    coaches_res.columns = [column.capitalize().replace("_", " ") for column in coaches_res.columns]
+    capitalize_columns(coaches_res)
 
     query = f"""SELECT t.name AS team_name, t.alias, t.market, t.founded, t.mascot, t.fight_song, t.championships_won, c.name AS conference_name, d.name AS division_name, v.name AS venue_name 
         FROM teams AS t
@@ -125,8 +123,7 @@ def team_explorer(st, conn):
         WHERE t.team_id = '{team_id}';
     """
     team_res = pd.read_sql(query, conn)
-    team_res.columns = [column.capitalize().replace("_", " ") for column in team_res.columns]
-
+    capitalize_columns(team_res)
 
     st.write(f"Selected Team: {team_selected}")
     st.header("Team Roster")

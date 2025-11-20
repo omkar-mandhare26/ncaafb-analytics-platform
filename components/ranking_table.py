@@ -1,3 +1,4 @@
+from utils.capitalize_columns import capitalize_columns
 import pandas as pd
 
 def ranking_table(st, conn): 
@@ -5,14 +6,14 @@ def ranking_table(st, conn):
     st.write("---")
 
     # 1st & 2nd Question Solution (Display the weekly rankings from the AP(Associated Press Top 25) Poll, Columns include: week, team name, rank, points, first-place votes, wins, and losses.)
-    query = """ SELECT t.name AS team_name, r.week, r.current_rank, r.points, r.fp_votes, r.wins, r.losses, s.year
+    query = """ SELECT t.name AS team_name, r.week, r.current_rank, r.points, r.fp_votes, r.wins, r.losses, s.year AS season
         FROM rankings AS r
         JOIN teams AS t ON t.team_id = r.team_id
         JOIN seasons AS s ON s.season_id = r.season_id
         WHERE poll_name = 'Associated Press Top 25';
     """
     rankings_res = pd.read_sql(query, conn)
-    rankings_res.columns = [column.capitalize().replace("_", " ") for column in rankings_res.columns]
+    capitalize_columns(rankings_res)
 
     st.header("Display the weekly rankings from the AP(Associated Press Top 25) Poll with filter")
     
@@ -26,15 +27,14 @@ def ranking_table(st, conn):
         min_val, max_val = st.slider(
             "Select range",
             min_value=1,
-            max_value=rankings_res["Current rank"].max(),
-            value=(1, 10)
+            max_value=rankings_res["Current Rank"].max(),
+            value=(1, 5)
         )
 
         st.dataframe(rankings_res[
-            (rankings_res["Current rank"] >= min_val) &
-            (rankings_res["Current rank"] <= max_val)
+            (rankings_res["Current Rank"] >= min_val) &
+            (rankings_res["Current Rank"] <= max_val)
         ])
-
     else:
         if filter_type == "Season":
             column_name = "Season"
@@ -54,18 +54,16 @@ def ranking_table(st, conn):
     JOIN seasons AS s ON s.season_id = r.season_id;
     """
     teams_ranking_res = pd.read_sql(query, conn)
-    teams_ranking_res.columns = [column.capitalize().replace("_", " ") for column in teams_ranking_res.columns]
+    capitalize_columns(teams_ranking_res)
 
     st.header("Supports searching for a specific team's ranking history")
     search_text = st.text_input("Search ranking history by team")
 
     if search_text.strip(): 
         teams_ranking_res = teams_ranking_res[
-            teams_ranking_res["Team name"].str.lower().eq(search_text.lower()) |
+            teams_ranking_res["Team Name"].str.contains(search_text, case=False, na=False) |
             teams_ranking_res["Alias"].str.lower().eq(search_text.lower()) ]
 
         if teams_ranking_res.empty: st.warning("No matching player found")
         else: st.dataframe(teams_ranking_res)
     else: st.dataframe(teams_ranking_res)
-
-

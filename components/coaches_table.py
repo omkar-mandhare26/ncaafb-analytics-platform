@@ -1,3 +1,4 @@
+from utils.capitalize_columns import capitalize_columns
 import pandas as pd
 
 def coaches_table(st, conn): 
@@ -10,16 +11,16 @@ def coaches_table(st, conn):
     """
 
     coaches_res = pd.read_sql(query, conn)
-    coaches_res.columns = [column.capitalize().replace("_", " ") for column in coaches_res.columns]
+    capitalize_columns(coaches_res)
 
     st.header("Display all coaches with details like name, position, and associated team")
     search_text = st.text_input("Search by coach name or team")
 
     if search_text.strip():
         coaches_res = coaches_res[
-            coaches_res["Full name"].str.contains(search_text, case=False, na=False) |
-            coaches_res["Team name"].str.contains(search_text, case=False, na=False) | 
-            coaches_res["Alias"].str.contains(search_text, case=False, na=False)
+            coaches_res["Full Name"].str.contains(search_text, case=False, na=False) |
+            coaches_res["Team Name"].str.contains(search_text, case=False, na=False) | 
+            coaches_res["Alias"].str.lower().eq(search_text.lower())
         ]
 
         if coaches_res.empty: st.warning("No matching teams found")
